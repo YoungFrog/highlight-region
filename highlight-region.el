@@ -44,9 +44,9 @@
   (remove-hook 'post-command-hook #'highlight-region--highlight-region t)
   (remove-hook 'deactivate-mark-hook #'highlight-region--unhighlight-region t)
   (when highlight-region-mode
-    (add-hook 'activate-mark-hook #'highlight-region--highlight-region t)
-    (add-hook 'post-command-hook #'highlight-region--highlight-region t)
-    (add-hook 'deactivate-mark-hook #'highlight-region--unhighlight-region t)))
+    (add-hook 'activate-mark-hook #'highlight-region--highlight-region nil t)
+    (add-hook 'post-command-hook #'highlight-region--highlight-region nil t)
+    (add-hook 'deactivate-mark-hook #'highlight-region--unhighlight-region nil t)))
 
 (defun highlight-region--highlight-region ()
   "Highlight currently active region"
