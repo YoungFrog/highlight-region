@@ -52,7 +52,7 @@
   "Highlight currently active region"
   (when (use-region-p)
     (let ((str (buffer-substring-no-properties (region-beginning) (region-end))))
-      (unless (or (string-empty-p str)
+      (unless (or (string= "" str)
                   (string= str highlight-region--highlighted-text))
         (highlight-region--unhighlight-region)
         (setq highlight-region--highlighted-text str)
