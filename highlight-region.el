@@ -48,6 +48,13 @@
     (add-hook 'post-command-hook #'highlight-region--highlight-region nil t)
     (add-hook 'deactivate-mark-hook #'highlight-region--unhighlight-region nil t)))
 
+(defface highlight-region
+  '(
+	(t
+	 :inherit lazy-highlight))
+  "Highlight the text that matches with the marked region."
+  :group 'faces)
+
 (defun highlight-region--highlight-region ()
   "Highlight currently active region"
   (when (use-region-p)
@@ -56,8 +63,7 @@
                   (string= str highlight-region--highlighted-text))
         (highlight-region--unhighlight-region)
         (setq highlight-region--highlighted-text str)
-        ;; TODO: add a face `highlight-region' and use it.
-        (highlight-regexp (regexp-quote str))))))
+        (highlight-regexp (regexp-quote str) 'highlight-region)))))
 
 (defun highlight-region--unhighlight-region nil
   (unhighlight-regexp (regexp-quote highlight-region--highlighted-text))
