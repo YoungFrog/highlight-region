@@ -55,24 +55,35 @@
     (add-hook 'post-command-hook #'extrapolate--highlight-region nil t)
     (add-hook 'deactivate-mark-hook #'extrapolate--unhighlight-region nil t)))
 
-(defface extrapolate
-  '((t :inherit lazy-highlight))
-  "Contextual highlighting from the Extrapolate library."
-  :group 'faces)
-
 (defun extrapolate--highlight-region ()
-  (when (use-region-p)
-    (let ((str (buffer-substring-no-properties (region-beginning) (region-end))))
-      (unless (or (string= "" str)
-                  (string= str extrapolate--highlighted-text))
-        (extrapolate--unhighlight-region)
-		(ov-set str 'face 'extrapolate 'extrapolate t)
-        (setq extrapolate--highlighted-text str)))))
+  (if (use-region-p)
+	  (let ((str (buffer-substring-no-properties (region-beginning) (region-end))))
+	  	(if (not (or (string= str "")
+					 (string= str extrapolate--highlighted-text)))
+	  		(progn
+	  		  (extrapolate--unhighlight-region)
+	  		  (run-at-time 0.05 nil 'extrapolate--highlight-region2 str))
+	  	  (setq extrapolate--highlighted-text "")))
+	(setq extrapolate--highlighted-text "")))
+
+(defun extrapolate--highlight-region2 (str)
+  (let ((str2 (buffer-substring-no-properties (region-beginning) (region-end))))
+	(if (string= str str2)
+		(progn
+		  (ov-set str 'face 'extrapolate 'extrapolate t)
+		  (setq extrapolate--highlighted-text str))
+	  (setq extrapolate--highlighted-text ""))))
 
 (defun extrapolate--unhighlight-region nil
   (ov-clear 'extrapolate)
   (setq extrapolate--highlighted-text ""))
 
+(defface extrapolate
+  '((t :inherit lazy-highlight))
+  "Contextual highlighting from the Extrapolate library."
+  :group 'faces)
+
 (provide 'extrapolate)
+
 
 ;;; extrapolate.el ends here
