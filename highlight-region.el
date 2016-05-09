@@ -22,10 +22,14 @@
 
 ;; Automatically highlight text matching region when mark is active.
 
-;; see http://emacs.stackexchange.com/questions/22041/automatic-search-and-replace-of-the-marked-region
+;; This came as a proof of concept code for answering an emacs.sx question at
+;; http://emacs.stackexchange.com/questions/22041/automatic-search-and-replace-of-the-marked-region
 
-;; TODO: check usefulness in relation with selected.el
+;; The person who asked the question published his own modifications
+;; at https://github.com/animike/extrapolate
 
+;; Known shortcomings:
+;; - we use text properties, so anything using overlays has higher priority
 
 ;;; Code:
 
